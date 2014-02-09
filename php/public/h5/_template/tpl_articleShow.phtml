@@ -1,0 +1,67 @@
+<?php include($this->_tpl_dir.'/_tpl_htmlHeader.phtml'); ?>
+
+<?php include($this->_tpl_dir.'/_tpl_navArticleshow.phtml'); ?>
+
+
+    <div class="container-fluid" style="margin-top: 40px;">
+      <h3><?php echo Tool_string::un_html($articleInfo['title']); ?></h3>
+      
+        <?php echo ml_tool_standardShow::time($articleInfo['pub_time']); ?>
+        来自 <a href="http://<?php echo $sourceInfo['domain']; ?>"><?php echo Tool_string::un_html($sourceInfo['site_name']); ?></a>
+        <small><a href="<?php echo $articleInfo['link']; ?>" target="_blank">原文</a></small><br/>
+        标签 <?php foreach ($articleInfo['tags'] as $key => $value) {?>
+          <a href=""><?php echo Tool_string::un_html($value); ?></a>
+        <?php } ?>
+      
+      <hr>
+      <div style="font-size:<?php echo $__visitor['h5mTheme']['font-size']?$__visitor['h5mTheme']['font-size']:12; ?>px">
+        <?php 
+          $articleShow = ml_tool_standardShow::no_html( ml_tool_contentFormater_baseBySrc::outputFormatContent($sourceInfo['codeSign'] , $articleInfo['content'])); 
+          echo $articleShow;
+          ?>
+      </div>
+      <input type="hidden" name="articleLen" value="<?php echo Tool_string::count_all_character($articleShow); ?>"/>
+      <div class="btn-group">
+        <button class="btn btn-large"><i class="icon-star"></i></button>
+        <button class="btn btn-large"><i class="icon-share"></i></button>
+        <button class="btn btn-large"><i class="icon-comment"></i></button>
+      </div>
+    </div>
+
+<?php include($this->_tpl_dir.'/_tpl_htmlFooter.phtml'); ?>
+<script type="text/javascript">
+  var readAtEnd = false;
+  var timeStart = Date.parse(new Date()) / 1000;
+
+  
+  setInterval(function(){
+    timeLst = Date.parse(new Date()) / 1000 - timeStart;
+    $('#tt').html(timeLst);
+  } , 1000);
+
+  $(window).scroll(function(){
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+    var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+
+    readTime = (Date.parse(new Date()) / 1000) - timeStart;
+
+    if(!readAtEnd && (scrollHeight -( scrollTop + clientHeight)) < 400){
+      readAtEnd = true;
+      
+      if(!scope.articleReaded && (readTime > scope.minReadTime || readTime > scope.maxReadTime))
+      {
+        scope.articleReaded = 1;
+        $.post(
+          'api/wr_articleReadOver.php',
+          {'aid':scope.aid},
+          function(){
+          }
+        );
+      }
+    }
+    else if(readAtEnd && (scrollHeight -( scrollTop + clientHeight)) > 400){
+      readAtEnd = false;
+    }
+  });
+</script>

@@ -1,0 +1,10 @@
+<?PHP
+define('ML_SPIDERTYPE_RSS' , 0);
+define('ML_SPIDERTYPE_RSSHTML' , 1);
+define('ML_SPIDERTYPE_RSSDIY' , 2);
+
+define('ML_SPIDERTIME_3HOUR' , 0);
+define('ML_SPIDERTIME_1HOUR' , 1);
+define('ML_SPIDERTIME_6HOUR' , 2);
+define('ML_SPIDERTIME_1DAY' , 3);
+define('ML_SPIDERTIME_NEVER' , 4);
