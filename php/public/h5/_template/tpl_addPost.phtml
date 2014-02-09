@@ -1,0 +1,112 @@
+<?php include($this->_tpl_dir.'/_tpl_htmlHeader.phtml'); ?>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <div style="margin-left: 20px;margin-right: 20px;">
+              <h4>
+                <a href="#">看这儿！</b></a>
+              </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: 50px;">
+      <a href="#" class="pull-right">+条件</a><br/>
+      <textarea rows="5"></textarea><br/>
+      <a href="#" class="pull-right">+结果</a><br/>
+      <a href="#" class="pull-right">+其他</a><br/>
+
+      <button href="#" class="pull-right btn btn-success">保存</button>
+    </div>
+    <div class="container-fluid" style="background-color: #454545;border-top: 3px solid #353535;bottom: 0;position: relative;">
+      <div>这里是：lat:<span id="latitude"></span> long:<span id="longitude"></span></div>
+      <div id="position"></div>
+    </div>
+<?php include($this->_tpl_dir.'/_tpl_htmlFooter.phtml'); ?>
+<script type="text/javascript">
+  
+    if(navigator.geolocation) {
+        navigator.geolocation.watchPosition(geoLocationCallback, handleLocationError, {maximumAge:20000});
+    }
+  
+  function geoLocationCallback(position)
+  {
+    latNum = new Number(position.coords.latitude);
+    longNum = new Number(position.coords.longitude);
+    scope.latitude=latNum.toFixed(7);
+    scope.longitude=longNum.toFixed(7);
+    if (position.coords.accuracy >= 500) {
+        return;
+    }
+
+    $('#latitude').html(scope.latitude);
+    $('#longitude').html(scope.longitude);
+
+    if(!scope.loadposition){
+      
+      $.get(
+          '/public/h5/api/wh_hereGetPosition.php?latitude='+scope.latitude+'&longitude='+scope.longitude,
+          function(result){
+            scope.loadposition=1;
+            eval('rs='+result+'');
+            alert(rs.data.formatted_address);
+            $('#position').html(rs.data.formatted_address);
+          }
+        );
+
+    }
+  }
+
+
+
+  function handleLocationError(error) {
+        switch(error.code)
+        {
+        case 0:
+        //  updateStatus("尝试获取您的位置信息时发生错误：" + error.message);
+          break;
+        case 1:
+       //   updateStatus("用户拒绝了获取位置信息请求。");
+          break;
+        case 2:
+    //    updateStatus("浏览器无法获取您的位置信息：" + error.message);
+          break;
+        case 3:
+     //     updateStatus("获取您位置信息超时。");
+          break;
+        }
+    }
+  
+  if (window.DeviceMotionEvent) {   
+    window.addEventListener('devicemotion',deviceMotionHandler, false);    
+  }
+
+  var last_update = 0;      
+  var x=y=z=last_x=last_y=last_z=0;  
+  function deviceMotionHandler(eventData){
+    var acceleration =eventData.accelerationIncludingGravity;    
+       
+    var curTime = new Date().getTime();   
+    if ((curTime - last_update)> 100) {    
+        var diffTime = curTime -last_update;      
+        last_update = curTime;          
+        x = acceleration.x;   
+        y = acceleration.y;     
+        z = acceleration.z;     
+        var speed = Math.abs(x +y + z - last_x - last_y - last_z) / diffTime * 10000;     
+          $('#xxx').empty().html(speed);
+        if (speed > 3000) {      
+          alert('xx');
+        }      
+        last_x = x;      
+        last_y = y;      
+        last_z = z;      
+        }
+
+  }
+
+
+  
+</script>

@@ -49,6 +49,39 @@ class ml_tool_resid
                .base_convert(ord($str{0}) . ord($str{3}).ord($str{(strlen($str) - 1)}) , 10 , 36);    
     }
 
+
+  //制造62进制的数  
+  static public function encodeBase62($num){  
+      if(57731386986<$num) return $num.'';  
+      $num_arr  = array(56800235584,916132832,14776336,238328,3844,62);  
+      $str = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';  
+        
+      $num_str = '';  
+      foreach($num_arr as $n){  
+          if($num>$n)  
+          {  
+              $num_idx = intval($num/$n);  
+              $num = $num % $n;  
+              $num_str.=$str[$num_idx];  
+          }else if($num_str!='') $num_str.='0';  
+      }  
+      return $num_str.$str[$num];  
+  }  
+  //还原62进制的数  
+  static public function decodeBase62($num){  
+      $str = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';  
+      $len = strlen($num);  
+      $rtn = 0;  
+      while($len>0){  
+          $cur = substr($num,0,1);  
+          $idx = strpos($str, $cur);  
+          $rtn += pow(62,$len-1)*$idx;  
+          $num = substr($num,1);  
+          $len = strlen($num);  
+      }  
+      return $rtn;  
+  }  
+  
 }
 
 //$a =  ml_tool_resid::make_resid(13123,01,23454234);

@@ -12,6 +12,8 @@ define('WR_APICODE_SUCCESS' , '00001');
 define('WR_APICODE_LOGIN' , '00008');
 define('WR_APICODE_SYSTEM' , '00009');
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL ^ E_NOTICE);
 
 class wr_h5mobileController extends ml_controller
 {
@@ -101,7 +103,7 @@ class wrh5m_urlMaker
 	}
 	static public function suggestArticle()
 	{
-		return 'wrh5m_suggestArticle.php';
+		return 'whh5_here.php';
 	}
 	static public function systemError()
 	{
