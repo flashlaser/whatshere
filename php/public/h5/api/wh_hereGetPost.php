@@ -1,34 +1,23 @@
 <?php
 	include(dirname(dirname(__FILE__)).'/__global.php');
 
-	class wr_setTheme extends wr_h5mobileAPIController
+	class wh_hereGetPost extends wr_h5mobileAPIController
 	{
 
-		private $_;
+		private $_latitude;
+		private $_longitude;
 		
 
 		public function checkParam(){
-			$this->_theme = $this->input('theme');
-			$this->_fontsize = $this->input('fontsize');
+			$this->_latitude = $this->input('latitude');
+			$this->_longitude = $this->input('longitude');
 		}
 
 		public function main()
 		{
-			$oUserSet = new ml_model_wruUserSetting();
-			$oUserSet->getByUidType($this->__visitor['uid'] , ML_USERSET_HTML5MOB_THEME);
-			$data = $oUserSet->get_data();
-
-			$config = $data['data'];
-
-			if($this->_theme)
-				$config['theme'] = $this->_theme == 'ori' ? '' : $this->_theme;
-			if($this->_fontsize)
-				$config['font-size'] = $this->_fontsize;
-
-			$oUserSet->setByUidType($this->__visitor['uid'] , ML_USERSET_HTML5MOB_THEME , $config);
-
+			
 			$this->api_output(WR_APICODE_SUCCESS);
 		}
 	}
 
-	new wr_setTheme();
+	new wh_hereGetPost();

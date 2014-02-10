@@ -35,16 +35,17 @@ class ml_model_whatshere_dbGeoPost extends Lib_datamodel_db
         return $this->fetch($sql);
     }
 
-    function addTripByUid($uid , $startdate , $days , $title)
+    function addPost($gpid , $uid , $latitude , $longitude , $content)
     {
         if(!$this->init_db($uid , self::DB_MASTER))
             return false;
 
         $data = array(
+                'gpid' => $gpid,
                 'uid' => $uid,
-                'title' => $title,
-                'start_date' => $startdate,
-                'days' => $days,
+                'latitude' => ml_tool_coords::toint($latitude),
+                'longitude' => ml_tool_coords::toint($longitude),
+                'content' => $content,
             );
         return $this->insert($data);
     }

@@ -5,8 +5,10 @@
 	class whh5_addPost extends wr_h5mobileController
 	{
 		
+
 		public function main()
 		{
+
 			
 			$this->page_output('addPost' , $data);
 		}

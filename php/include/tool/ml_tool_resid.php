@@ -4,8 +4,23 @@
  * @author leo
  *
  */
+
+echo ml_tool_resid::encodeBase62(999999999);
 class ml_tool_resid
 {
+    static public function genGpid($lat , $long , $uid){
+
+      $o = new ml_model_whatshere_dbIdGenerator();
+      $id = $o->generate_id();
+      return ($lat > 0 ? '+' : '-') 
+            .str_pad(ml_tool_resid::encodeBase62(ml_tool_coords::toint(abs($lat))) , 6 , 0 , STR_PAD_LEFT)
+            .($long > 0 ? '+' : '-') 
+            .str_pad(ml_tool_resid::encodeBase62(ml_tool_coords::toint(abs($long))) , 6 , 0 , STR_PAD_LEFT)
+            .str_pad(ml_tool_resid::encodeBase62($uid) , 6 , 0 , STR_PAD_LEFT)
+            .ml_tool_resid::encodeBase62($id);
+
+    }
+
     static public function make_resid($uid , $type , $id)
     {
         return str_pad(dechex($uid),8,0,STR_PAD_LEFT)

@@ -14,10 +14,15 @@
 
 		public function main()
 		{
-			$oBaiduMap = new ml_model_whatshere_apiBaiduMap();
-			$oBaiduMap->getPositionNameByCoords($this->_latitude , $this->_longitude);
-			$rs = $oBaiduMap->get_data();
-			$this->api_output(WR_APICODE_SUCCESS , $rs);
+			$oMap = new ml_model_whatshere_apiSogouMap();
+			$oMap->getPositionNameByCoords($this->_latitude , $this->_longitude);
+			$rs = $oMap->get_data();
+			
+			$aData = array(
+					'address' => $rs[0]['address'],
+					'all_address' => $rs
+				);
+			$this->api_output(WR_APICODE_SUCCESS , $aData);
 		}
 	}
 

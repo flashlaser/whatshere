@@ -14,21 +14,42 @@ return array(
                 'host' => array(
                     0 => 'localhost:3306'
                 ),
-                'user' => 'trip',
+                'user' => 'whatshere',
                 'pw' => 'cucued',
-                'name' => 'trip',
+                'name' => 'whatshere_dev',
             ),
             'slave' => array(
                 'host' => array(
                     0 => 'localhost:3306'
                 ),
-                'user' => 'trip',
+                'user' => 'whatshere',
                 'pw' => 'cucued',
-                'name' => 'trip',
+                'name' => 'whatshere_dev',
             )
         ),
         'tb_n' => 1,
         'tb_prefix' => 'wh_geopost'
     ),
-    
+    'idgen' => array(
+        'connect' => array(
+            'master' => array(
+                'host' => array(
+                    0 => 'localhost:3306'
+                ),
+                'user' => 'whatshere',
+                'pw' => 'cucued',
+                'name' => 'whatshere_dev',
+            ),
+            'slave' => array(
+                'host' => array(
+                    0 => 'localhost:3306'
+                ),
+                'user' => 'whatshere',
+                'pw' => 'cucued',
+                'name' => 'whatshere_dev',
+            )
+        ),
+        'tb_n' => 1,
+        'tb_prefix' => 'wh_idgen'
+    ),
 );

@@ -14,11 +14,11 @@
 
     <div class="container-fluid" style="margin-top: 50px;">
       <a href="#" class="pull-right">+条件</a><br/>
-      <textarea rows="5"></textarea><br/>
+      <textarea rows="5" id="textContent"></textarea><br/>
       <a href="#" class="pull-right">+结果</a><br/>
       <a href="#" class="pull-right">+其他</a><br/>
 
-      <button href="#" class="pull-right btn btn-success">保存</button>
+      <button id="btnSave" href="#" class="pull-right btn btn-success">保存</button>
     </div>
     <div class="container-fluid" style="background-color: #454545;border-top: 3px solid #353535;bottom: 0;position: relative;">
       <div>这里是：lat:<span id="latitude"></span> long:<span id="longitude"></span></div>
@@ -50,9 +50,10 @@
           '/public/h5/api/wh_hereGetPosition.php?latitude='+scope.latitude+'&longitude='+scope.longitude,
           function(result){
             scope.loadposition=1;
+
             eval('rs='+result+'');
-            alert(rs.data.formatted_address);
-            $('#position').html(rs.data.formatted_address);
+            
+            $('#position').html(rs.data.address);
           }
         );
 
@@ -107,6 +108,24 @@
 
   }
 
+  $('#btnSave').click(function(){
+    content = $('#textContent').val();
+    alert(content);
+    data = {
+      'latitude':scope.latitude,
+      'longitude':scope.longitude,
+      'content':content
+    };
+    $.post(
+        '/public/h5/api/wh_addGeoPost.php',
+        data,
+        function(rs){
+          alert(rs);
+
+        }
+      );
+
+  });
 
   
 </script>
