@@ -4,6 +4,8 @@ class ml_model_whatshere_dbIdGenerator extends Lib_datamodel_db
     function __construct() {
         $db_config = ml_factory::load_standard_conf ( 'dbContent' );
         parent::__construct ( 'idgen', $db_config ['idgen'] );
+        $this->_is_ctime = false;
+        $this->_is_utime = false;
     }
     
     public function generate_id()
@@ -15,7 +17,8 @@ class ml_model_whatshere_dbIdGenerator extends Lib_datamodel_db
         if(!$this->replace(array('a' => 'a')))
             return false;
             
-        $id = $this->insert_id();
+        return $this->insert_id();
+
         return true;
     }
 }

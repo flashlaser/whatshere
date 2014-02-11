@@ -23,6 +23,7 @@ class ml_model_whatshere_dbGeoPost extends Lib_datamodel_db
          * 2，相关数据库配置
          */
         parent::__construct('geopost' , $db_config['geopost']);
+        $this->_is_utime = false;
     }
     
     function getGeoPostHereRand($latitude , $longitude)
@@ -30,8 +31,19 @@ class ml_model_whatshere_dbGeoPost extends Lib_datamodel_db
         if(!$this->init_db($uid , self::DB_SLAVE))
             return false;
 
+        $lat = ml_tool_coords::toint($latitude);
+        $long = ml_tool_coords::toint($longitude);
         
-        $sql = 'select * from '.$this->table.' where latitude='.$latitude.' and longitude='.$longitude.' order by rand() limit 10';
+        $sql = 'select * from '.$this->table.' where latitude='.$lat.' and longitude='.$long.' order by rand() limit 1';
+        return $this->fetch_row($sql);
+    }
+    function getGeoPostByIds($gpids)
+    {
+        if(!$this->init_db($uid , self::DB_SLAVE))
+            return false;
+
+        $sIn = '"'.implode('","', $gpids).'"';
+        $sql = 'select * from '.$this->table.' where gpid in ('.$sIn.')';
         return $this->fetch($sql);
     }
 

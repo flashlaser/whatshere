@@ -61,7 +61,7 @@ class ml_controller extends ml_controller_base
         '$notice' => ''
         );
     protected $_option = array(); //接收参数的集合
-    private $_tpl_dir;
+    protected $_tpl_dir;
     private $_uri_dir;
     private $_output_data = array();
 

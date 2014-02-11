@@ -15,8 +15,14 @@
 
 		public function main()
 		{
+			$oGp = new ml_model_whatshere_dbGeoPost();
+			$oGp->getGeoPostHereRand($this->_latitude , $this->_longitude);
+			$rs = $oGp->get_data();
 			
-			$this->api_output(WR_APICODE_SUCCESS);
+
+			$html = $this->parseTpl('herePost' , $rs);
+			
+			$this->api_output(WR_APICODE_SUCCESS , $html);
 		}
 	}
 

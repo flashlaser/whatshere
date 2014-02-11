@@ -21,7 +21,8 @@
 			$oMap = new ml_model_whatshere_dbGeoPost();
 			$oMap->addPost($gpid , $this->__visitor['uid'] , $this->_latitude , $this->_longitude , $this->_content);
 
-			
+			$oMy = new ml_model_whatshere_dbMyPost();
+			$oMy->addPost($gpid , $this->__visitor['uid']);
 
 			$this->api_output(WR_APICODE_SUCCESS , $aData);
 		}

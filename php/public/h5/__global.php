@@ -77,8 +77,24 @@ class wr_h5mobileApiController extends ml_controller
 			}
 
 		}
-
+		$this->set_tpl_dir(dirname(__FILE__).'/_template');
+		$this->set_uri_dir('/public/h5/');
 		
+	}
+	public function parseTpl($tpl , $data){
+
+		$tpl_path = $this->_tpl_dir.'/_tpl_'.$tpl.'.phtml';
+
+		if(is_array($data))
+        	extract($data);
+
+        ob_start();
+        include($tpl_path);
+        $html = ob_get_clean();
+        ob_end_clean();
+
+        return $html;
+
 	}
 
 }

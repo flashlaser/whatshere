@@ -1,14 +1,29 @@
 <?php include($this->_tpl_dir.'/_tpl_htmlHeader.phtml'); ?>
 
-<?php include($this->_tpl_dir.'/_tpl_navArticlelist.phtml'); ?>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <div style="margin-left: 20px;margin-right: 20px;">
+              <h4>
+                <a href="#"><b>看这儿！</b><em id="position"></em></a>
+                <a href="/page/whh5_addPost.php" class="btn btn-small pull-right btn-success" style="margin-top: 0px" ><i class="icon-plus"></i></a>
+                <a href="javascript:;" class="btn btn-small pull-right" style="margin-top: 0px" id="fff" ><i class="icon-refresh"></i></a>
+              </h4>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<br/><br/><br/><br/>
-    <div class="container-fluid" style="margin-top: 40px;margin-left: -20px;margin-right:-20px ">
-    
+<br/><br/>
+    <div class="container-fluid" id="geoPost">
+      <div class="row" style="background-image: url('<?php echo $this->_uri_dir ?>/img/here_bg.jpg')">
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      </div>
+    </div>
+
     <div id="latitude"></div>
     <div id="longitude"></div>
     <div id="xxx"></div>
-    </div>
 <?php echo memory_get_peak_usage()/1024/1024;  ?>
 <?php include($this->_tpl_dir.'/_tpl_htmlFooter.phtml'); ?>
 <script type="text/javascript">
@@ -29,6 +44,21 @@
 
     $('#latitude').html(scope.latitude);
     $('#longitude').html(scope.longitude);
+
+    if(!scope.loadposition){
+      
+      $.get(
+          '/public/h5/api/wh_hereGetPosition.php?latitude='+scope.latitude+'&longitude='+scope.longitude,
+          function(result){
+            scope.loadposition=1;
+
+            eval('rs='+result+'');
+            
+            $('#position').html(rs.data.address);
+          }
+        );
+
+    }
   }
   function handleLocationError(error) {
         switch(error.code)
@@ -67,7 +97,10 @@
         var speed = Math.abs(x +y + z - last_x - last_y - last_z) / diffTime * 10000;     
           $('#xxx').empty().html(speed);
         if (speed > 3000) {      
-          alert('xx');
+          
+          loadPost();
+          
+
         }      
         last_x = x;      
         last_y = y;      
@@ -76,6 +109,16 @@
 
   }
 
-  
+  function loadPost(){
+    $.get('/public/h5/api/wh_hereGetPost.php?latitude='+scope.latitude+'&longitude='+scope.longitude,function(result){
+            eval('rs='+result);
+            $('#geoPost').html(rs.data);
+          });
+  }
+
+  $('#fff').click(function(){
+    loadPost();
+
+  });
   
 </script>

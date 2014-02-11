@@ -1,9 +1,9 @@
 <?php
 class ml_tool_coords
 {
-    const FLOAT2INTTIMES = 1000000;
+    const FLOAT2INTTIMES = 10000;
     static function toint($x){
-        return round($x * self::FLOAT2INTTIMES);
+        return (int)($x * self::FLOAT2INTTIMES);
     }
     
         

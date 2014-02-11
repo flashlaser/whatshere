@@ -30,6 +30,28 @@ return array(
         'tb_n' => 1,
         'tb_prefix' => 'wh_geopost'
     ),
+    'mypost' => array(
+        'connect' => array(
+            'master' => array(
+                'host' => array(
+                    0 => 'localhost:3306'
+                ),
+                'user' => 'whatshere',
+                'pw' => 'cucued',
+                'name' => 'whatshere_dev',
+            ),
+            'slave' => array(
+                'host' => array(
+                    0 => 'localhost:3306'
+                ),
+                'user' => 'whatshere',
+                'pw' => 'cucued',
+                'name' => 'whatshere_dev',
+            )
+        ),
+        'tb_n' => 1,
+        'tb_prefix' => 'wh_mypost'
+    ),
     'idgen' => array(
         'connect' => array(
             'master' => array(

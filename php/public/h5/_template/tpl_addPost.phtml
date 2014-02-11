@@ -12,11 +12,14 @@
       </div>
     </div>
 
+
+
+
     <div class="container-fluid" style="margin-top: 50px;">
-      <a href="#" class="pull-right">+条件</a><br/>
-      <textarea rows="5" id="textContent"></textarea><br/>
-      <a href="#" class="pull-right">+结果</a><br/>
-      <a href="#" class="pull-right">+其他</a><br/>
+      <div id="divCondition" style="border: 1px solid #bcbcbc;"></div>
+      <a href="#myModal" role="button" class="pull-right" data-toggle="modal">+条件</a>
+      <textarea rows="5" id="textContent" class="input-large"></textarea><br/>
+
 
       <button id="btnSave" href="#" class="pull-right btn btn-success">保存</button>
     </div>
@@ -24,6 +27,56 @@
       <div>这里是：lat:<span id="latitude"></span> long:<span id="longitude"></span></div>
       <div id="position"></div>
     </div>
+    
+
+
+
+
+
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 id="myModalLabel">谁能看到?</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs">
+          <li><a href="#home" data-toggle="tab"><i class="icon-user icon-white"></i></a></li>
+          <li><a href="#profile" data-toggle="tab"><i class="icon-eye-open icon-white"></i></a></li>
+          <li><a href="#messages" data-toggle="tab"><i class="icon-ok icon-white"></i></a></li>
+          </ul>
+               
+          <div class="tab-content">
+          <div class="tab-pane active" style="height: 200px;" id="home">
+
+            aaaaaaaaaaa<br/>
+            aaaaaaaaaaa<br/>
+            
+          </div>
+          <div class="tab-pane" id="profile">
+            <small>看到过我最近的留言</small>
+            <ul style="height: 150px" id="ulMyPost">
+              <li>aafsdfsdjflsdlfjsdlfj</li>
+              <li>aafsdfsdjflsdlfjsdlfj</li>
+              <li>aafsdfsdjflsdlfjsdlfj</li>
+              <li>aafsdfsdjflsdlfjsdlfj</li>
+              <li>aafsdfsdjflsdlfjsdlfj</li>
+              <li>aafsdfsdjflsdlfjsdlfj</li>
+              <li>aafsdfsdjflsdlfjsdlfj</li>
+            </ul>
+          </div>
+          <div class="tab-pane" id="messages">aa...</div>
+          </div>
+            
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button class="btn btn-primary">增加条件</button>
+        </div>
+      </div>  
+    
+
+
+
 <?php include($this->_tpl_dir.'/_tpl_htmlFooter.phtml'); ?>
 <script type="text/javascript">
   
@@ -126,6 +179,13 @@
       );
 
   });
-
+  $('#btnCondition').click(function(){
+    $('#divCondition').html("<br/>xxxxx</br>");
+  });
   
+$.get('/public/h5/api/wh_myPost.php',function(result){
+alert(result);
+
+});
+
 </script>
