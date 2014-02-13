@@ -1,5 +1,9 @@
 <?php include($this->_tpl_dir.'/_tpl_htmlHeader.phtml'); ?>
-
+<style>
+.postBg{
+  background-image: url('<?php echo $this->_uri_dir ?>/img/here_bg.jpg')
+}
+</style>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -15,9 +19,19 @@
     </div>
 
 <br/><br/>
-    <div class="container-fluid" id="geoPost">
-      <div class="row" style="background-image: url('<?php echo $this->_uri_dir ?>/img/here_bg.jpg')">
+    <div class="container-fluid postBg">
+      <div class="row" id="geoPost">
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      </div>
+    </div>
+
+    <div class="container-fluid" style="display: none" id="divComment">
+      <div class="row">
+
+        <h3 style="border-bottom: 1px solid #c8c8c8">评论<a href="javascript:;" class="btn btn-mini pull-right" style="margin-top: 12px;" ><i class="icon-plus"></i></a></h3>
+        <ul>
+
+        </ul>
       </div>
     </div>
 
@@ -53,7 +67,6 @@
             scope.loadposition=1;
 
             eval('rs='+result+'');
-            
             $('#position').html(rs.data.address);
           }
         );
@@ -96,7 +109,7 @@
         z = acceleration.z;     
         var speed = Math.abs(x +y + z - last_x - last_y - last_z) / diffTime * 10000;     
           $('#xxx').empty().html(speed);
-        if (speed > 3000) {      
+        if (speed > 1000) {      
           
           loadPost();
           
@@ -112,7 +125,16 @@
   function loadPost(){
     $.get('/public/h5/api/wh_hereGetPost.php?latitude='+scope.latitude+'&longitude='+scope.longitude,function(result){
             eval('rs='+result);
-            $('#geoPost').html(rs.data);
+            $('#geoPost').parent().removeClass('postBg');
+            $('#geoPost').hide(200,function(){
+              $('#geoPost').html(rs.data.html);
+              if(rs.data.isok == 1){
+                $('#divComment').show();
+              }  
+              $('#geoPost').show(1000);
+            });
+            
+            
           });
   }
 

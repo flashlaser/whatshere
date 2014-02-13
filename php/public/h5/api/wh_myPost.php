@@ -21,9 +21,16 @@
 			$oGeo = new ml_model_whatshere_dbGeoPost();
 			$oGeo->getGeoPostByIds($gpids);
 			$rs = $oGeo->get_data();
-			var_dump($rs);
+			foreach ($rs as $key => $value) {
+				$aRs[strtotime($value['_ctime'])] = $value;
+			}
+			krsort($aRs);
+			$rs = array_values($aRs);
+			$data = array(
+				'rows' => $rs,
+			);
 			
-			$this->api_output(WR_APICODE_SUCCESS , $html);
+			$this->api_output(WR_APICODE_SUCCESS , $data);
 		}
 	}
 

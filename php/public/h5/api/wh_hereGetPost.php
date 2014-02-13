@@ -16,13 +16,33 @@
 		public function main()
 		{
 			$oGp = new ml_model_whatshere_dbGeoPost();
-			$oGp->getGeoPostHereRand($this->_latitude , $this->_longitude);
+
+			$rnd = mt_rand(0 , 12);
+			if($rnd < 3){
+				$accuracy = ml_model_whatshere_dbGeoPost::ACCURACY_LOW;
+			}else if($rnd<6){
+				$accuracy = ml_model_whatshere_dbGeoPost::ACCURACY_HIGH;
+			}else{
+				$accuracy = ml_model_whatshere_dbGeoPost::ACCURACY_NORMAL;
+			}
+
+
+			$oGp->getGeoPostHereRand($this->_latitude , $this->_longitude , $accuracy);
 			$rs = $oGp->get_data();
 			
-
-			$html = $this->parseTpl('herePost' , $rs);
+			$isok = 0;
+			if($rs){
+				$html = $this->parseTpl('herePost' , $rs);
+				$isok = 1;
+			}else{
+				$html = $this->parseTpl('herePostNull');
+			}
+			$data = array(
+				'isok' => $isok,
+				'html' => $html
+			);
 			
-			$this->api_output(WR_APICODE_SUCCESS , $html);
+			$this->api_output(WR_APICODE_SUCCESS , $data);
 		}
 	}
 
